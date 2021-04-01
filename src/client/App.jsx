@@ -16,14 +16,14 @@ class App extends React.Component {
         this.reloadNotes();
         window.addEventListener("beforeunload", this.onLeave);
     }
-
+    
     componentWillUnmount () {
         window.removeEventListener("beforeunload", this.onLeave);
     }
 
     reloadNotes = () => {
         NotesService.getAllNotes().then(res => {
-            
+
             // initialize z-indexes
             const notesUI = {}; 
             res.data.map((note, i) => {
@@ -71,12 +71,10 @@ class App extends React.Component {
     syncNote = async (note) => {
         let noteStatus;
         try {
-            const res = await NotesService.updateNote(note);
+            await NotesService.updateNote(note);
             noteStatus = "READY";
-            console.log(res);
         } catch (err) {
             noteStatus = "FAILED";
-            console.log(err);
         } finally {
             const notesUI = { ...this.state.notesUI };
             notesUI[note.id].status = noteStatus;
