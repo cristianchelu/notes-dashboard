@@ -1,56 +1,98 @@
 import React from "react";
 import { hot } from "react-hot-loader";
 import { FloatingNote } from "./components/Note";
+import NotesService from "./services/NoteService";
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            notes: {
-                1: {
-                    id: 1,
-                    x: 50,
-                    y: 50,
-                    text: "How'dy!\n\n[ ] List 1",
-                    createdAt: new Date(),
-                    zIndex: 1,
-                },
-                2: {
-                    id: 2,
-                    x: 40, 
-                    y: 40 ,
-                    text: `Test!\n\n[ ] List 2\n**BOLD**`,
-                    createdAt: new Date(),
-                    zIndex: 2,
-                },
-            },
+            notes: [],
+            notesUI: {},
         };
     }
 
+    componentDidMount () {
+        NotesService.getAllNotes().then(res => {
+            
+            // initialize z-indexes
+            const notesUI = {}; 
+            res.data.map((note, i) => {
+                notesUI[note.id] = {
+                    zIndex: i,
+                    status: "READY",
+                };
+            });
+
+            this.setState({
+                ...this.state,
+                notes: res.data,
+                notesUI,
+            });
+        });
+    }
+
     handleNoteUpdate = (newNote) => {
-        const newNotes = { 
-            ...this.state.notes,
-            [newNote.id]: newNote,
-        };
-        this.setState({...this.state, notes: newNotes});
+        const newNotesUI = {...this.state.notesUI};
+        newNotesUI[newNote.id].status = "LOADING";
+
+        const newNotes = [...this.state.notes];
+        const idx = this.state.notes.findIndex( n => n.id == newNote.id );
+        newNotes[idx] = newNote;
+
+        this.setState({
+            ...this.state, 
+            notes: newNotes,
+            notesUI: newNotesUI,
+        });
+
+        this.syncNote(newNote);
+    };
+
+    syncNote = async (note) => {
+        let noteStatus;
+        try {
+            const res = await NotesService.updateNote(note);
+            noteStatus = "READY";
+            console.log(res);
+        } catch (err) {
+            noteStatus = "FAILED";
+            console.log(err);
+        } finally {
+            const notesUI = { ...this.state.notesUI };
+            notesUI[note.id].status = noteStatus;
+            
+            this.setState({
+                ...this.state,
+                notesUI,
+            });
+        }
     };
 
     handleNoteFocused = (note) => {
-        const maxZIndex = Object.values(this.state.notes).reduce((a,b)=>Math.max(a.zIndex,b.zIndex));
-        this.handleNoteUpdate({
-            ...note,
-            zIndex: maxZIndex + 1,
+        const newNotesUI = { ...this.state.notesUI };
+        
+        const maxZIndex = Object.values(newNotesUI)
+            .reduce( (a, b) => Math.max(a.zIndex,b.zIndex) );
+
+        newNotesUI[note.id].zIndex = maxZIndex + 1;
+        
+        this.setState({
+            ...this.state,
+            notesUI: newNotesUI,
         });
     };
 
     render () {
-        const { notes } = this.state;
-        return Object.keys(notes).map( id => 
+        const { notes, notesUI } = this.state;
+        return notes.map( note => 
             <FloatingNote 
-                key={`note-${id}`}
-                onFocus={() => this.handleNoteFocused(notes[id])}
+                key={`note-${note.id}`}
+                onFocus={() => this.handleNoteFocused(note)}
                 onUpdate={this.handleNoteUpdate}
-                note={notes[id]}
+                note={note}
+                status={notesUI[note.id].status}
+                zIndex={notesUI[note.id].zIndex}
             />
         );
     }

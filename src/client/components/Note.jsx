@@ -9,7 +9,7 @@ const Note = ({ note, onUpdate, style, ...rest }) => {
             <div className="title">
                 <div className="drag-handle">
                     <span className="status">&nbsp;</span>
-                    <span className="created">{createdAt.toISOString()}</span>
+                    <span className="created">{createdAt}</span>
                 </div>
                 <a className="delete">&times;</a>
             </div>
@@ -52,7 +52,7 @@ function transformAbsoluteToPercentPos (pos) {
 }
 
 export const FloatingNote = (props) => {
-    const { note, onUpdate, ...rest } = props;
+    const { zIndex, note, onUpdate, ...rest } = props;
 
     // Patch onUpdate since our interface exposes position as percentage
     // but node-draggable uses absolute coordinates
@@ -74,7 +74,7 @@ export const FloatingNote = (props) => {
         >
             <div 
                 className='note-container' 
-                style={{zIndex: note.zIndex}}
+                style={{zIndex: zIndex}}
             >
                 <Note
                     note={note}
