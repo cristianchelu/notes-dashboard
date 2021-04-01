@@ -1,6 +1,7 @@
 
-const Koa = require("koa");
 const path = require("path");
+const Koa = require("koa");
+const logger = require("koa-logger");
 const bodyParser = require("koa-bodyparser");
 const serve = require("koa-static");
 const router = require("./routes");
@@ -15,6 +16,7 @@ async function configureApp () {
     app.use(bodyParser());
     
     if (config.NODE_ENV == "development") {
+        app.use(logger());
         const webpack = await koaWebpack({ config: webpackConfig });
         app.use(webpack);
     }
