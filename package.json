@@ -12,6 +12,7 @@
   "author": "Cristian Chelu",
   "license": "MIT",
   "dependencies": {
+    "@ant-design/icons": "^4.6.2",
     "dotenv": "^8.2.0",
     "html-webpack-plugin": "^4.5.2",
     "knex": "^0.95.4",

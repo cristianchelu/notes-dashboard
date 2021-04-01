@@ -2,13 +2,31 @@ import React from "react";
 import Markdown from "markdown-to-jsx";
 import Draggable from "react-draggable";
 
-const Note = ({ note, onUpdate, style, ...rest }) => {
+import {
+    CheckCircleOutlined, 
+    LoadingOutlined,
+    WarningOutlined,
+} from "@ant-design/icons";
+
+const Note = ({ note, status, onUpdate, style, ...rest }) => {
     const { text, createdAt } = note;
+    let statusIcon = "";
+    switch (status) {
+    case "READY":
+        statusIcon = <CheckCircleOutlined />;
+        break;
+    case "LOADING":
+        statusIcon = <LoadingOutlined />;
+        break;
+    case "FAILED":
+        statusIcon = <WarningOutlined />;
+        break;
+    }
     return (
         <div className="note" {...rest} >
             <div className="title">
                 <div className="drag-handle">
-                    <span className="status">&nbsp;</span>
+                    <span className="status">{statusIcon}</span>
                     <span className="created">{createdAt}</span>
                 </div>
                 <a className="delete">&times;</a>
