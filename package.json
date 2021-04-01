@@ -1,0 +1,21 @@
+{
+  "name": "notes-dashboard",
+  "version": "0.0.1",
+  "description": "A simple markdown post-it dashboard",
+  "main": "src/server/index.js",
+  "scripts": {
+    "test": "jest --watch-all"
+  },
+  "author": "Cristian Chelu",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "koa": "^2.13.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^10.0.0"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3",
+    "supertest": "^6.1.3"
+  }
+}
