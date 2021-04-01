@@ -1,7 +1,7 @@
 import React from "react";
 import { hot } from "react-hot-loader";
 import { FloatingNote } from "./components/Note";
-import NotesService from "./services/NoteService";
+import NoteService from "./services/NoteService";
 
 class App extends React.Component {
     constructor(props) {
@@ -22,7 +22,7 @@ class App extends React.Component {
     }
 
     reloadNotes = () => {
-        NotesService.getAllNotes().then(res => {
+        NoteService.getAllNotes().then(res => {
 
             // initialize z-indexes
             const notesUI = {}; 
@@ -72,7 +72,7 @@ class App extends React.Component {
     syncNote = async (note) => {
         let noteStatus;
         try {
-            await NotesService.updateNote(note);
+            await NoteService.updateNote(note);
             noteStatus = "READY";
         } catch (err) {
             noteStatus = "FAILED";
