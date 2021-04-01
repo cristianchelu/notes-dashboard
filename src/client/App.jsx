@@ -10,17 +10,30 @@ class App extends React.Component {
         this.state = {
             notes: [],
             notesUI: {},
+            window: {width: window.innerWidth, height: window.innerHeight},
         };
     }
 
     componentDidMount () {
         this.reloadNotes();
         window.addEventListener("beforeunload", this.onLeave);
+        window.addEventListener("resize", this.onResize);
     }
     
     componentWillUnmount () {
         window.removeEventListener("beforeunload", this.onLeave);
+        window.removeEventListener("resize", this.onResize);
     }
+
+    onResize = () => {
+        this.setState({
+            ...this.state,
+            window: {
+                width: window.innerWidth,
+                height: window.innerHeight,
+            },
+        });
+    };
 
     reloadNotes = () => {
         NoteService.getAllNotes().then(res => {
