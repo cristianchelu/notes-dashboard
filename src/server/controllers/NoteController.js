@@ -29,6 +29,7 @@ class NoteController {
 
     async delete(ctx) {
         await Note.query().delete().where({ id: ctx.params.id });
+        ctx.body = {};
     }
 }
 
