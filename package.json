@@ -5,23 +5,28 @@
   "main": "src/server/index.js",
   "scripts": {
     "dev": "nodemon src/server/index.js",
-    "test": "jest --watch-all"
+    "test": "jest",
+    "db:seed": "knex seed:run",
+    "db:migrate": "knex migrate:latest"
   },
   "author": "Cristian Chelu",
   "license": "MIT",
   "dependencies": {
     "dotenv": "^8.2.0",
     "html-webpack-plugin": "^4.5.2",
+    "knex": "^0.95.4",
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^10.0.0",
     "koa-webpack": "^6.0.0",
     "markdown-to-jsx": "^7.1.2",
     "mini-css-extract-plugin": "^1.4.0",
+    "objection": "^2.2.15",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-draggable": "^4.4.3",
     "sass-loader": "^10.1.1",
+    "sqlite3": "^5.0.2",
     "webpack": "^4.46.0",
     "webpack-cli": "^4.6.0",
     "webpack-merge": "^5.7.3"
