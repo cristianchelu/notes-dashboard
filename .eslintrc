@@ -1,0 +1,29 @@
+
+{
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "env": {
+        "browser": true,
+        "node": true,
+        "es6": true,
+        "jest": true
+    },
+    "plugins": ["@babel"],
+    "extends": ["eslint:recommended", "plugin:react/recommended"],
+    "rules": {
+        "quotes": [2, "double", { "allowTemplateLiterals": true }],
+        "no-unused-vars": ["warn", { 
+            "vars": "all", 
+            "args": "none", 
+            "ignoreRestSiblings": false 
+        }],
+        "comma-dangle": [2, "always-multiline"],
+        "no-console": 1,
+        "@babel/semi": "error",
+        "no-mixed-spaces-and-tabs": "error",
+        "indent": ["error", 4],
+        "react/prop-types": 0
+    }
+  }
