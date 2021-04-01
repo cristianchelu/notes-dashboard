@@ -17,6 +17,17 @@ html, body {
     background: #EAEAF0;
     overflow: hidden;
 
+    #add-note-button {
+        cursor: pointer;
+        padding: .5em;
+        margin: 1rem;
+        border: none;
+        background-color: var(--note-bg-color);
+        border-radius: 4em;
+        box-shadow: 0 0 1em rgba(0,0,0,0.2);
+        font-size: 150%;
+    }
+
     .note-container {
         position: absolute;
         height: 20em;

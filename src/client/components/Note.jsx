@@ -8,7 +8,7 @@ import {
     WarningOutlined,
 } from "@ant-design/icons";
 
-const Note = ({ note, status, onUpdate, style, ...rest }) => {
+const Note = ({ note, status, onDelete, onUpdate, style, ...rest }) => {
     const { text, createdAt } = note;
     let statusIcon = "";
     switch (status) {
@@ -29,7 +29,7 @@ const Note = ({ note, status, onUpdate, style, ...rest }) => {
                     <span className="status">{statusIcon}</span>
                     <span className="created">{createdAt}</span>
                 </div>
-                <a className="delete">&times;</a>
+                <a className="delete" onClick={()=>onDelete(note)}>&times;</a>
             </div>
             <div className="body">
                 <div className='preview'><Markdown>{text}</Markdown></div>

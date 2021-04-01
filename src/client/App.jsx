@@ -1,3 +1,4 @@
+import { FileAddOutlined } from "@ant-design/icons";
 import React from "react";
 import { hot } from "react-hot-loader";
 import { FloatingNote } from "./components/Note";
@@ -69,6 +70,29 @@ class App extends React.Component {
         this.syncNote(newNote);
     };
 
+    handleNoteDelete = async (note) => {
+        try {
+            await NoteService.deleteNote(note);
+            this.reloadNotes();
+        } catch (err) {
+            const newNotesUI = {...this.state.notesUI};
+            newNotesUI[note.id].status = "FAILED";
+            this.setState({
+                ...this.state,
+                notesUI: newNotesUI,
+            });
+        }
+    };
+
+    handleNoteAdd = async () => {
+        await NoteService.addNote({
+            text: "",
+            x: 50,
+            y: 50,
+        });
+        this.reloadNotes();        
+    };
+
     syncNote = async (note) => {
         let noteStatus;
         try {
@@ -103,16 +127,22 @@ class App extends React.Component {
 
     render () {
         const { notes, notesUI } = this.state;
-        return notes.map( note => 
-            <FloatingNote 
-                key={`note-${note.id}`}
-                onFocus={() => this.handleNoteFocused(note)}
-                onUpdate={this.handleNoteUpdate}
-                note={note}
-                status={notesUI[note.id].status}
-                zIndex={notesUI[note.id].zIndex}
-            />
-        );
+        return <>
+            {notes.map( note => 
+                <FloatingNote 
+                    key={`note-${note.id}`}
+                    onFocus={() => this.handleNoteFocused(note)}
+                    onUpdate={this.handleNoteUpdate}
+                    onDelete={this.handleNoteDelete}
+                    note={note}
+                    status={notesUI[note.id].status}
+                    zIndex={notesUI[note.id].zIndex}
+                />)
+            }
+            <button id='add-note-button' onClick={this.handleNoteAdd}>
+                <FileAddOutlined />
+            </button>
+        </>;
     }
 }
 
