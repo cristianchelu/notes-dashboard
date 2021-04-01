@@ -14,6 +14,11 @@ class App extends React.Component {
 
     componentDidMount () {
         this.reloadNotes();
+        window.addEventListener("beforeunload", this.onLeave);
+    }
+
+    componentWillUnmount () {
+        window.removeEventListener("beforeunload", this.onLeave);
     }
 
     reloadNotes = () => {
@@ -34,6 +39,16 @@ class App extends React.Component {
                 notesUI,
             });
         });
+    };
+
+    onLeave = (ev) => {
+        const activeRequests = Object.values(this.state.notesUI)
+            .find( n => n.status == "LOADING");
+        if (activeRequests) {
+            ev.preventDefault;
+            ev.returnValue = "MESSAGE!";
+            return "MESSAGE!";
+        }
     };
 
     handleNoteUpdate = (newNote) => {
