@@ -2,7 +2,7 @@
 
 A very simple markdown post-it dashboard.
 
-Made with React + Webpack + Koa + Knex + Objection ROM
+Made with React + Webpack + Koa + Knex + Objection ORM
 
 ## Installing
 
