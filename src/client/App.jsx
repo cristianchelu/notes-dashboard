@@ -42,12 +42,13 @@ class App extends React.Component {
     };
 
     onLeave = (ev) => {
+        const onLeaveMsg = "You still have pending requests. Still leave?";
         const activeRequests = Object.values(this.state.notesUI)
             .find( n => n.status == "LOADING");
         if (activeRequests) {
             ev.preventDefault;
-            ev.returnValue = "MESSAGE!";
-            return "MESSAGE!";
+            ev.returnValue = onLeaveMsg;
+            return onLeaveMsg;
         }
     };
 
