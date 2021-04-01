@@ -13,6 +13,10 @@ class App extends React.Component {
     }
 
     componentDidMount () {
+        this.reloadNotes();
+    }
+
+    reloadNotes = () => {
         NotesService.getAllNotes().then(res => {
             
             // initialize z-indexes
@@ -30,7 +34,7 @@ class App extends React.Component {
                 notesUI,
             });
         });
-    }
+    };
 
     handleNoteUpdate = (newNote) => {
         const newNotesUI = {...this.state.notesUI};
