@@ -1,6 +1,12 @@
 const request = require("supertest");
-const app = require("../app");
+const configureApp = require("../app");
 const knex = require("../database/connection");
+
+let app;
+
+beforeAll(async () => {
+    app = await configureApp();
+});
 
 describe("API tests", () => {
     beforeEach(async () => {

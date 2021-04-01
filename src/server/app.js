@@ -1,12 +1,29 @@
+
 const Koa = require("koa");
 const bodyParser = require("koa-bodyparser");
+const serve = require("koa-static");
 const router = require("./routes");
+const config = require("./config");
+const koaWebpack = require("koa-webpack");
+const webpackConfig = require("../../webpack.config.dev");
 
-const app = new Koa();
+async function configureApp () {
+    const app = new Koa();
+    app.use(bodyParser());
+    
+    if (config.NODE_ENV == "development") {
+        const webpack = await koaWebpack({ config: webpackConfig });
+        app.use(webpack);
+    }
 
-app
-    .use(bodyParser())
-    .use(router.routes())
-    .use(router.allowedMethods());
+    if (config.NODE_ENV == "production") {
+        const webpack = await koaWebpack({ config: webpackConfig });
+        app.use(webpack);
+    }
 
-module.exports = app;
+    app.use(router.routes());
+    app.use(router.allowedMethods());
+    return app;
+}
+
+module.exports = configureApp;
