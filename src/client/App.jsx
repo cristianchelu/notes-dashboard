@@ -47,7 +47,7 @@ class App extends React.Component {
         const activeRequests = Object.values(this.state.notesUI)
             .find( n => n.status == "LOADING");
         if (activeRequests) {
-            ev.preventDefault;
+            ev.preventDefault();
             ev.returnValue = onLeaveMsg;
             return onLeaveMsg;
         }
