@@ -4,7 +4,10 @@
   "description": "A simple markdown post-it dashboard",
   "main": "src/server/index.js",
   "scripts": {
+    "build": "webpack --config webpack.config.prod.js && NODE_ENV=production npm run build:db",
+    "build:db": "export NODE_ENV=production && npm run db:migrate && npm run db:seed",
     "dev": "nodemon src/server/index.js",
+    "dev:db": "knex migrate:latest && knex seed:run",
     "test": "jest",
     "db:seed": "knex seed:run",
     "db:migrate": "knex migrate:latest"
@@ -19,6 +22,7 @@
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
     "koa-router": "^10.0.0",
+    "koa-static": "^5.0.0",
     "koa-webpack": "^6.0.0",
     "markdown-to-jsx": "^7.1.2",
     "mini-css-extract-plugin": "^1.4.0",

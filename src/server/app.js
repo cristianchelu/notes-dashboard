@@ -1,11 +1,14 @@
 
 const Koa = require("koa");
+const path = require("path");
 const bodyParser = require("koa-bodyparser");
 const serve = require("koa-static");
 const router = require("./routes");
 const config = require("./config");
 const koaWebpack = require("koa-webpack");
 const webpackConfig = require("../../webpack.config.dev");
+
+const BUILD_PATH = path.join(__dirname, "..", "..", "build");
 
 async function configureApp () {
     const app = new Koa();
@@ -17,8 +20,7 @@ async function configureApp () {
     }
 
     if (config.NODE_ENV == "production") {
-        const webpack = await koaWebpack({ config: webpackConfig });
-        app.use(webpack);
+        app.use(serve(BUILD_PATH));
     }
 
     app.use(router.routes());

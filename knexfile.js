@@ -17,6 +17,21 @@ module.exports = {
     development: {
         client: "sqlite3",
         connection: {
+            filename: "dev.sqlite3",
+        },
+        migrations: {
+            directory: "src/server/database/migrations",
+            tableName: "migrations",
+        },
+        seeds: {
+            directory: "src/server/database/seeds",
+        },
+        useNullAsDefault: true,
+        debug: false,
+    },
+    production: {
+        client: "sqlite3",
+        connection: {
             filename: "notes.sqlite3",
         },
         migrations: {
