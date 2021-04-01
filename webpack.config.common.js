@@ -20,10 +20,11 @@ const commonConfig = {
                 use: ["babel-loader"],
             },
             {
-                test: /\.css$/,
+                test: /\.s?css$/,
                 use: [
                     MiniCssExtractPlugin.loader,
                     "css-loader",
+                    "sass-loader",
                 ],
             },
         ],
